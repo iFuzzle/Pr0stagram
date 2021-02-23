@@ -1,0 +1,12 @@
+[Unit]
+Description=Grab pr0gramm.com Links and post content as echo in Telegram
+
+[Service]
+WorkingDirectory=/home/shitt0lk_bot
+User=shitt0lk_bot
+Group=shitt0lk_bot
+Type=simple
+ExecStart=/home/shitt0lk_bot/venv/bin/python3 /home/shitt0lk_bot/Shitt0lk.py
+
+[Install]
+WantedBy=multi-user.target
