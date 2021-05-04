@@ -12,8 +12,8 @@ def pr0_image_link_grabber(ident: int) -> str:
     try:
         my_json = json.loads(api.get_items(item=(ident + 1), flag=flag))
         if my_json["items"][0]["fullsize"] != "":
-                print("Da drückste +")
-                return f'{my_json["items"][0]["fullsize"]}'
+            print("Da drückste +")
+            return f'{my_json["items"][0]["fullsize"]}'
         return f'{my_json["items"][0]["image"]}'
 
     except ConnectionResetError:
