@@ -1,5 +1,7 @@
 [Unit]
 Description=Grab pr0gramm.com Links and post content as echo in Telegram
+Requires=Network.target
+After=Network.target
 
 [Service]
 WorkingDirectory=/home/shitt0lk_bot
