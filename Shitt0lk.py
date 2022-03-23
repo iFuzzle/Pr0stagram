@@ -1,7 +1,7 @@
 import logging
 import urllib.request
 from telegram import Update
-from telegram.ext import Updater, MessageHandler, Filters, CallbackContext
+from telegram.ext import Updater, MessageHandler, Filters, CallbackContext, CommandHandler
 import image_grabber
 
 
@@ -48,12 +48,27 @@ def pr0p0st(update: Update, context: CallbackContext) -> None:
             update.message.reply_text("I cant read your link. The post number should be the last thing. Try again.")
 
 
+def status(update: Update, context: CallbackContext) -> None:
+    if update.effective_user == 59554881:    # set your personal Telgram ID here
+        group_ids = ", ".join(str(gid) for gid in context.bot_data.setdefault("group_ids", set()))
+        channel_ids = ", ".join(str(cid) for cid in context.bot_data.setdefault("channel_ids", set()))
+        response = f"@{context.bot.username} ist Mitglied in {len(group_ids)} Gruppen:\n{group_ids}" \
+                   f"\n\naußerdem Admin hier:\n{channel_ids}"
+        logger.log(f"Gruppen:\n{group_ids}")
+        logger.log(f"Davon Admin:\n{channel_ids}")
+    else:
+        response = "For security reasons this Info is limited to the bot Owner."
+        logger.warn(f"Zugriffsversuch auf Statusmeldung durch ID {update.effective_user}")
+    update.effective_message.reply_text(response)
+
+
 if __name__ == '__main__':
     bottoken = open("./telegramtoken").readline()
     updater = Updater(token=bottoken)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, pr0p0st))
+    dispatcher.add_handler(CommandHandler("status", status))
 
     logger.info("Bot started successfully")
 
