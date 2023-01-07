@@ -1,9 +1,11 @@
+import base64
 import logging
 import urllib.request
+import requests
 from telegram import Update
-from telegram.ext import Updater, MessageHandler, Filters, CallbackContext, CommandHandler
-import image_grabber
+from telegram.ext import Updater, MessageHandler, Filters, CallbackContext, CommandHandler, ConversationHandler
 
+import image_grabber
 
 logger = logging.getLogger("Sh1tlogger")
 log_format = '[%(asctime)s] %(levelname)-8s %(name)-12s %(message)s'
@@ -12,6 +14,9 @@ logging.basicConfig(
     format=log_format,
     filename="Sh1t.log")
 logger.info("Started logging")
+
+CAPTCHA, HELPER = range(2)
+helper_token = ""
 
 
 def pr0p0st(update: Update, context: CallbackContext) -> None:
@@ -48,18 +53,34 @@ def pr0p0st(update: Update, context: CallbackContext) -> None:
             update.message.reply_text("I cant read your link. The post number should be the last thing. Try again.")
 
 
-def status(update: Update, context: CallbackContext) -> None:
-    if update.effective_user == 59554881:    # set your personal Telgram ID here
-        group_ids = ", ".join(str(gid) for gid in context.bot_data.setdefault("group_ids", set()))
-        channel_ids = ", ".join(str(cid) for cid in context.bot_data.setdefault("channel_ids", set()))
-        response = f"@{context.bot.username} ist Mitglied in {len(group_ids)} Gruppen:\n{group_ids}" \
-                   f"\n\naußerdem Admin hier:\n{channel_ids}"
-        logger.log(f"Gruppen:\n{group_ids}")
-        logger.log(f"Davon Admin:\n{channel_ids}")
+def login(update: Update, context: CallbackContext) -> int:
+    logger.info("login attempt")
+    if update.effective_user.id == 59554881:  # set your personal Telgram ID here
+        logger.info(f"Login triggered by owner")
+        captcha_req = requests.get("https://pr0gramm.com/api/user/captcha")
+        helper_token = captcha_req.json()["token"]
+        image = captcha_req.json()["captcha"].split("base64,")[-1]
+        image = base64.decodebytes(bytes(image, "utf-8"))
+        update.effective_message.reply_photo(image)
+        return CAPTCHA
     else:
-        response = "For security reasons this Info is limited to the bot Owner."
-        logger.warn(f"Zugriffsversuch auf Statusmeldung durch ID {update.effective_user}")
-    update.effective_message.reply_text(response)
+        update.effective_message.reply_text("not allowed")
+        return ConversationHandler.END
+
+
+def captcha(update: Update, context: CallbackContext) -> int:
+    captcha_text = update.message.text[1:]  # Es muss ein / davor stehen, das muss wieder weg...
+    update.effective_message.reply_text(f"Captcha ist: {captcha_text}")
+    logger.warning(f"captcha Eingabe: {captcha_text}")
+    image_grabber.login(captcha=captcha_text, token=helper_token)
+    return ConversationHandler.END
+
+
+def cancel(update: Update, context: CallbackContext) -> int:
+    user = update.message.from_user
+    logger.info(f"User {user.id} canceled the conversation.")
+    update.message.reply_text("Prozess abgebrochen")
+    return ConversationHandler.END
 
 
 if __name__ == '__main__':
@@ -68,11 +89,23 @@ if __name__ == '__main__':
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, pr0p0st))
-    dispatcher.add_handler(CommandHandler("status", status))
+
+    conv_handler = ConversationHandler(
+        per_user=True,
+        per_chat=True,
+        per_message=False,
+        entry_points=[CommandHandler('login', login)],
+        states={
+            CAPTCHA: [
+                MessageHandler(Filters.text, captcha)
+            ]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)],
+    )
+
+    dispatcher.add_handler(conv_handler)
 
     logger.info("Bot started successfully")
 
     updater.start_polling()
     updater.idle()
-
-

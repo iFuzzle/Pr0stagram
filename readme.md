@@ -21,17 +21,39 @@ You will need a normal user account on the platform for this. I dont have a bot 
 * enter your username in the first line of a file called "pr0token"
 * enter your password in the second line of the same file
 * start the bot with an connected CLI or in an IDE
-* When you first try to download a picture (send it as PN to the bot) you will need to fill in a captach
+* When you first try to download a picture (send it as PN to the bot) you will need to fill in a captacha
 * the CLI will prompt for the context of your new captcha.png file
 * If you enter the right captcha it will generate a cookie.json for further usage
 
-### Running it with systemd ###
-Once you have your cookie, you might want to run it with the provided service. You will need to make adjustments to it. 
-
+### Running it as a background service on your server with systemd ###
+Once you have your cookie, you might want to run it with the provided service. You will need to make adjustments to it.
+Quick guide (errors are to be expected at every step):
+* useradd shitt0lk_bot
+* <ftp> %yourmachine%/Pr0stagram/* /home/shitt0lk_bot/
+* mv Shitt0lk.service /etc/systemd/system/
+* chmod 700 /etc/systemd/system/Shitt0lk.service
+* chmod 700 /home/shitt0lk_bot/Shitt0lk.py
+* chown root:root /etc/systemd/system/Shitt0lk.service
+* su shitt0lk_bot
+* cd /home/shitt0lk_bot
+* python3 -m venv /home/shitt0lk_bot/venv/
+* source /home/shitt0lk_bot/venv/bin/activate
+* pip install -r requirements.txt
+* chmod 700 /home/shitt0lk_bot/Shitt0lk.py
+* python3 /home/shitt0lk_bot/Shitt0lk.py
+* send a pr0gramm.com link to your bot via PM
+* <ftp get> /home/shitt0lk_botcaptcha.png
+* type captcha in the comand line
+* Ctrl+C
+* Ctrl+D
+* systemctl daemon-relaod
+* systemctl enable Shitt0lk.service
+* systemctl start Shitt0lk.service
+done
 
 ## Be aware! ##
 I provide this code and documentation without any warranty.
-If you face any sort of negative effects for using this bot (like being blocked or worse) it's your fault.<br />
+If you face any sort of negative effects for using this bot (like being banned or worse) it's your fault.<br />
 You may want to adjust the flags for the image_grabber to provide an unsafer environment.
 
 
