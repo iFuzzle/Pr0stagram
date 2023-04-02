@@ -1,33 +1,37 @@
 ## Introduction ##
-This Bot was build to enable a group chat to consume content from a specific website.<br />
-The Website this bot is grabbing from blocks a lot of content for invited users.<br />
-As some of our group didn't had accounts, we needed a way to share it with them and it also enables everyone to consume the content without visiting the website itself.
+This bot was created for a small group of friends to share media from "the pr0" to a telegram group chat.<br>
+Accessing media from Telegram directly requires additional actions and some content is locked behind an account.<br>
+This bot simply scans for links to that website, grabs the content and posts it as an answer in the group chat.<br>
+It's also possible to do this per PN to the bot and share the media from there.<br>
 
+Legal discl
 
 ## Installation ##
-Right now I dont provide much Documentation about how to set up the bot. But here are the basics:
+This bot is supposed to only be run for PRIVATE USAGE! This is mainly to provde myself access to my own code.<br> 
+But if you want to run your own version or just don't trust me (and you shouldn't), you can run your own instance.<br>
+From experience I can tell you, that this process is subject to change and provided more as a guideline for myself.
 
 ### Get your telegram token ###
 You will need an API Token for Telegram. You will have to find @BotFather on Telegram and do the following:
 * press ``start``
 * click ``new bot``
 * enter a name
-* enter a username (shown to others, ending in \`bot\`)
+* enter a username (shown to others, ending in 'bot')
 * copy and paste your token into a file called telegramtoken in your project folder
 * if you want to use the bot in a group use ``/setprivacy`` (disabled) and ``/setjoingroups`` before adding it
 
 ### Get your pr0 token ###
-You will need a normal user account on the platform for this. I dont have a bot account myself (yet).
-* enter your username in the first line of a file called "pr0token"
-* enter your password in the second line of the same file
-* start the bot with an connected CLI or in an IDE
-* When you first try to download a picture (send it as PN to the bot) you will need to fill in a captacha
-* the CLI will prompt for the context of your new captcha.png file
-* If you enter the right captcha it will generate a cookie.json for further usage
+You only need a normal user account on pr0 for this. I don't have a bot account myself (yet).<br>
+
+%TODO Subject to change
+    - new API version to be used
+    - access without pr0 account? (sfp only?)
+    - ask for bot access
+    - rewrite readme for new API version
 
 ### Running it as a background service on your server with systemd ###
 Once you have your cookie, you might want to run it with the provided service. You will need to make adjustments to it.
-Quick guide (errors are to be expected at every step):
+Quick guide (**errors are to be expected at every step**):
 * useradd shitt0lk_bot
 * <ftp> %yourmachine%/Pr0stagram/* /home/shitt0lk_bot/
 * mv Shitt0lk.service /etc/systemd/system/
@@ -43,7 +47,7 @@ Quick guide (errors are to be expected at every step):
 * python3 /home/shitt0lk_bot/Shitt0lk.py
 * send a pr0gramm.com link to your bot via PM
 * <ftp get> /home/shitt0lk_botcaptcha.png
-* type captcha in the comand line
+* type the captcha in the comand line
 * Ctrl+C
 * Ctrl+D
 * systemctl daemon-relaod
@@ -51,12 +55,17 @@ Quick guide (errors are to be expected at every step):
 * systemctl start Shitt0lk.service
 done
 
+%TODO: Docker
+
 ## Be aware! ##
-I provide this code and documentation without any warranty.
-If you face any sort of negative effects for using this bot (like being banned or worse) it's your fault.<br />
-You may want to adjust the flags for the image_grabber to provide an unsafer environment.
+TLDR: it's your fault if you run this.<br>
+
+I provide this code and documentation without any warranty and advice you NOT to run it or use my bot.<br>
+If you face any sort of consequences for running or using this bot, you are accountable for yourslef.<br>
+This is meant for private use! Don't make money with this and don't share copyrighted material!!<br>
+
 
 
 ## Licences of used Libraries ##
-https://github.com/python-telegram-bot/python-telegram-bot/blob/master/LICENSE <br />
-https://github.com/itssme/pypr0/blob/master/LICENSE <br />
+https://github.com/python-telegram-bot/python-telegram-bot/blob/master/LICENSE <br>
+https://github.com/itssme/pypr0/blob/master/LICENSE <br>
