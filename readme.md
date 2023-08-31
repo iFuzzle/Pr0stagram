@@ -13,17 +13,17 @@ You will need an API Token for Telegram. You will have to find @BotFather on Tel
 * click ``new bot``
 * enter a name
 * enter a username (shown to others, ending in \`bot\`)
-* copy and paste your token into a file called telegramtoken in your project folder
+* copy the `yaml.config.example` as `yaml.config`and past your tokens in there.
 * if you want to use the bot in a group use ``/setprivacy`` (disabled) and ``/setjoingroups`` before adding it
 
 ### Get your pr0 token ###
 You will need a normal user account on the platform for this. I dont have a bot account myself (yet).
-* enter your username in the first line of a file called "pr0token"
-* enter your password in the second line of the same file
+* paste your username and password into the `config.yaml` created above
 * start the bot with an connected CLI or in an IDE
 * When you first try to download a picture (send it as PN to the bot) you will need to fill in a captacha
 * the CLI will prompt for the context of your new captcha.png file
 * If you enter the right captcha it will generate a cookie.json for further usage
+INFO: you can probably just grab the cookie.json from your browser and use that one (only tested for same hardware, might or might not be an issue with different hardware)
 
 ### Running it as a background service on your server with systemd ###
 Once you have your cookie, you might want to run it with the provided service. You will need to make adjustments to it.
