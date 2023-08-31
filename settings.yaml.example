@@ -1,0 +1,5 @@
+telegram:
+  token: TELEGRAM_BOT_TOKEN_HERE
+pr0gramm:
+  username: PR0GRAMM_USERNAME_HERE
+  password: PR0GRAMM_PASSWORD HERE

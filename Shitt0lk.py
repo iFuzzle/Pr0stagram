@@ -2,6 +2,7 @@ import base64
 import logging
 import urllib.request
 import requests
+import yaml
 from telegram import Update
 from telegram.ext import Updater, MessageHandler, Filters, CallbackContext, CommandHandler, ConversationHandler
 
@@ -84,7 +85,11 @@ def cancel(update: Update, context: CallbackContext) -> int:
 
 
 if __name__ == '__main__':
-    bottoken = open("./telegramtoken").readline()
+    # read settings from settings.yaml
+    with open("settings.yaml", "r") as settings_file:
+        settings = yaml.load(settings_file, Loader=yaml.FullLoader)
+
+    bottoken = settings['telegram']['token']
     updater = Updater(token=bottoken)
     dispatcher = updater.dispatcher
 
