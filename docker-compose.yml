@@ -1,0 +1,4 @@
+services:
+  shitt0lk:
+    build: .
+    restart: unless-stopped
