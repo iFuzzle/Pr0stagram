@@ -2,3 +2,5 @@ services:
   shitt0lk:
     build: .
     restart: unless-stopped
+    # TODO add mount-bind or volume for config ... or rewrite for env which would be even better...
+    # for now just copy-paste a settings.yaml into src/

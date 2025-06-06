@@ -2,3 +2,4 @@ python-telegram-bot==22.1
 pypr0==0.2.8
 requests
 pyyaml
+pathlib
