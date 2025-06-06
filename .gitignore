@@ -1,4 +1,7 @@
-/captcha.png
-/cookie.json
-/Sh1t.log
-/settings.yaml
+src/captcha.png
+*.json
+Sh1t.log
+src/settings.yaml
+.venv/
+src/pr0gramm_captcha.png
+src/__pycache__
